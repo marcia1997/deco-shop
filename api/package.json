@@ -1,26 +1,31 @@
 {
-  "name": "strapi-app",
-  "version": "1.0.0",
-  "description": "Strapi application for production",
-  "main": "server.js",
+  "name": "shop-deco",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
   "scripts": {
     "develop": "strapi develop",
-    "start": "NODE_ENV=production node server.js",
-    "build": "strapi build"
+    "start": "strapi start S",
+    "build": "strapi build",
+    "strapi": "strapi"
   },
   "dependencies": {
-    "sqlite3": "^5.1.6",
-    "strapi": "^4.15.0",
-    "strapi-admin": "^4.15.0",
-    "strapi-plugin-content-manager": "^4.15.0",
-    "strapi-plugin-content-type-builder": "^4.15.0",
-    "strapi-plugin-users-permissions": "^4.15.0",
-    "strapi-plugin-email": "^4.15.0",
-    "strapi-plugin-upload": "^4.15.0",
-    "strapi-utils": "^4.15.0"
+    "@strapi/plugin-i18n": "4.12.4",
+    "@strapi/plugin-users-permissions": "4.12.4",
+    "@strapi/strapi": "4.12.4",
+    "@stripe/stripe-js": "^2.1.0",
+    "better-sqlite3": "8.5.0",
+    "node": "^20.5.0",
+    "stripe": "^13.2.0"
+  },
+  "author": "A Strapi developer",
+  "strapi": {
+    "uuid": "499160ae-16ba-4503-8f65-77240df5c441"
   },
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  }
+    "node": ">=16.0.0 <=20.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT",
+  "main": "index.js"
 }
