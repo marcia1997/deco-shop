@@ -1,13 +1,16 @@
-module.exports = {
+module.exports = ({ env }) => ({
   connection: {
     client: 'postgres',
     connection: {
-      host: process.env.DATABASE_HOST,
-      port: process.env.DATABASE_PORT,
-      database: process.env.DATABASE_NAME,
-      user: process.env.DATABASE_USERNAME,
-      password: process.env.DATABASE_PASSWORD,
-      ssl: false, // Disable SSL
+      host: env('DATABASE_HOST'),
+      port: env.int('DATABASE_PORT'),
+      database: env('DATABASE_NAME'),
+      user: env('DATABASE_USERNAME'),
+      password: env('DATABASE_PASSWORD'),
+      ssl: {
+        rejectUnauthorized: false,
+      }
+      
     },
   },
-};
+});
