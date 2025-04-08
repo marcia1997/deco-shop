@@ -17,9 +17,7 @@ module.exports = ({ env }) => [
   {
     name: 'strapi::cors',
     config: {
-      origin: [
-        'https://wecooking-front-e9qg.onrender.com'      
-      ],
+     
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
       headers: '*',
       credentials: true,
