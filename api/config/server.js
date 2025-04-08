@@ -1,10 +1,11 @@
 module.exports = ({ env }) => ({
-  url: env('PUBLIC_URL', 'https://deco-shop.onrender.com'),  
+  host: env('HOST', '0.0.0.0'),
   app: {
     keys: env.array('APP_KEYS'),
   },
-  admin: {
-    url: '/admin',
+  cors: {
+    origin: ['http://localhost:3000', 'https://deco-shop-front.onrender.com'],
+    credentials: true,
   },
 });
 
