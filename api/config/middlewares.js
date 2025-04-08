@@ -1,31 +1,13 @@
-module.exports = ({ env }) => [
+module.exports = [
   'strapi::errors',
-  {
-    name: 'strapi::security',
-    config: {
-      contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-          'connect-src': ["'self'", 'https:', 'http:'],
-          'img-src': ["'self'", 'data:', 'blob:', 'https:'],
-          'media-src': ["'self'", 'data:', 'blob:', 'https:'],
-          upgradeInsecureRequests: null,
-        },
-      },
-    },
-  },
   {
     name: 'strapi::cors',
     config: {
-      origin: [
-        'https://wecooking-front-e9qg.onrender.com', 
-      
-      ],
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-      headers: '*',
+      origin: ['https://deco-shop-front.onrender.com'],
       credentials: true,
     },
   },
+  'strapi::security',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
