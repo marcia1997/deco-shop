@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Product.scss";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -8,7 +7,6 @@ import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
-
 
 const Product = () => {
   // Extract product ID from URL parameters
@@ -41,7 +39,7 @@ const Product = () => {
                   data?.attributes?.img?.data?.attributes?.url
                 }
                 alt=""
-                onClick={(e) => setSelectedImg("img")}
+                onClick={() => setSelectedImg("img")}
               />
               {/* Display second product image */}
               <img
@@ -50,7 +48,7 @@ const Product = () => {
                   data?.attributes?.img2?.data?.attributes?.url
                 }
                 alt=""
-                onClick={(e) => setSelectedImg("img2")}
+                onClick={() => setSelectedImg("img2")}
               />
             </div>
             {/* Display main product image */}
