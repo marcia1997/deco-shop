@@ -1,5 +1,5 @@
 module.exports = ({ env }) => ({
-  url: env('PUBLIC_URL', 'http://localhost:1337'),
+  url: env('PUBLIC_URL', 'https://deco-shop.onrender.com'),
   app: {
     keys: env.array('APP_KEYS'),
   },
@@ -10,3 +10,4 @@ module.exports = ({ env }) => ({
     url: '/admin',
   },
 });
+
