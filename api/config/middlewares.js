@@ -1,20 +1,25 @@
 module.exports = ({ env }) => [
   'strapi::errors',
-  'strapi::security',
-  'strapi::cors', // <- este es el que vamos a configurar
-  'strapi::poweredBy',
-  'strapi::logger',
-  'strapi::query',
-  'strapi::body',
-  'strapi::session',
-  'strapi::favicon',
-  'strapi::public',
+  {
+    name: 'strapi::security',
+    config: {
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'connect-src': ["'self'", 'https:', 'http:'],
+          'img-src': ["'self'", 'data:', 'blob:', 'https:'],
+          'media-src': ["'self'", 'data:', 'blob:', 'https:'],
+          upgradeInsecureRequests: null,
+        },
+      },
+    },
+  },
   {
     name: 'strapi::cors',
     config: {
       origin: [
         'https://wecooking-front-e9qg.onrender.com', 
-        'http://localhost:3000',                   
+        'http://localhost:3000',                     
         'https://deco-shop.onrender.com',            
       ],
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -22,4 +27,11 @@ module.exports = ({ env }) => [
       credentials: true,
     },
   },
+  'strapi::poweredBy',
+  'strapi::logger',
+  'strapi::query',
+  'strapi::body',
+  'strapi::session',
+  'strapi::favicon',
+  'strapi::public',
 ];
