@@ -9,9 +9,7 @@ module.exports = ({ env }) => ({
       password: env('DATABASE_PASSWORD'),
       ssl: {
         rejectUnauthorized: false,
-     
-        
-      
+      },
     },
   },
 });
