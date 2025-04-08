@@ -17,9 +17,8 @@ const Products = () => {
 
   // Fetch sub-categories for the selected category
   const { data, loading, error } = useFetch(
-    `${process.env.REACT_APP_API_URL}/sub-categories?[filters][categories][id][$eq]=${catId}`
+    `/sub-categories?[filters][categories][id][$eq]=${catId}`
   );
-  console.log("API URL:", process.env.REACT_APP_API_URL);
 
   // Handle change in selected sub-categories
   const handleChange = (e) => {
