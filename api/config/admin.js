@@ -10,7 +10,6 @@ module.exports = ({ env }) => ({
       salt: env('TRANSFER_TOKEN_SALT'),
     },
   },
-  url: '/admin', 
+  url: env('ADMIN_URL', '/admin'), 
   serveAdminPanel: true, 
 });
-
