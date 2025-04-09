@@ -39,18 +39,25 @@ const Products = () => {
         {/* Filter by sub-categories */}
         <div className="filterItem">
           <h2>Product Categories</h2>
-          {data?.map((item) => (
-            <div className="inputItem" key={item.id}>
-              <input
-                type="checkbox"
-                id={item.id}
-                value={item.id}
-                onChange={handleChange}
-              />
-              <label htmlFor={item.id}>{item.attributes.title}</label>
-            </div>
-          ))}
+          {loading ? (
+            <p>Loading categories...</p> // Display loading message while fetching
+          ) : error ? (
+            <p>Error fetching categories: {error.message}</p> // Handle error
+          ) : (
+            data?.map((item) => (
+              <div className="inputItem" key={item.id}>
+                <input
+                  type="checkbox"
+                  id={item.id}
+                  value={item.id}
+                  onChange={handleChange}
+                />
+                <label htmlFor={item.id}>{item.attributes.title}</label>
+              </div>
+            ))
+          )}
         </div>
+
         {/* Filter by price */}
         <div className="filterItem">
           <h2>Filter by price</h2>
@@ -65,6 +72,7 @@ const Products = () => {
             <span>{maxPrice}</span>
           </div>
         </div>
+
         {/* Sort options */}
         <div className="filterItem">
           <h2>Sort by</h2>
@@ -90,13 +98,14 @@ const Products = () => {
           </div>
         </div>
       </div>
+
       {/* Right section with product list */}
       <div className="right">
         {/* Display category image */}
         <img
           className="catImg"
           src="https://static.zarahome.net/8/photos4/2023/I/4/1/b/4226/000/737/BH/ZZ/4226000737_12_2_1.jpg?t=1690985356935&imformat=chrome"
-          alt=""
+          alt="Category"
         />
         {/* Render product list */}
         <List catId={catId} maxPrice={maxPrice} sort={sort} subCats={selectedSubCats} />
