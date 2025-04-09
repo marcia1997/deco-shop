@@ -1,13 +1,17 @@
 module.exports = [
   'strapi::errors',
+  'strapi::security',
   {
     name: 'strapi::cors',
     config: {
-      origin: ['https://deco-shop-front.onrender.com'],
+      origin: [
+        'http://localhost:3000',
+        'https://deco-shop-front.onrender.com',
+        'https://deco-shop.onrender.com',
+      ],
       credentials: true,
     },
   },
-  'strapi::security',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
