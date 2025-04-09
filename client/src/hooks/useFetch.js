@@ -1,31 +1,31 @@
 import { useEffect, useState } from "react";
-import { makeRequest } from "../makeRequest"; // Importing a custom function for making requests
+import { makeRequest } from "../makeRequest"; // Assuming this is your custom API request utility
 
 const useFetch = (url) => {
-  const [data, setData] = useState(null); // Stores fetched data
-  const [loading, setLoading] = useState(false); // Tracks loading state
-  const [error, setError] = useState(false); // Tracks error state
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true); // Set loading state to true
+        setLoading(true);
         const res = await makeRequest.get(url, {
           headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`, // Include the authorization header
+            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`, // Ensure this is passed
           },
         });
-        setData(res.data.data); // Set the fetched data into the 'data' state
+        setData(res.data.data);
       } catch (err) {
-        setError(true); // Set error state to true if there's an error
+        setError(true);
       }
-      setLoading(false); // Set loading state back to false
+      setLoading(false);
     };
 
-    fetchData(); // Call the fetchData function to initiate data fetching
-  }, [url]); // Depend on 'url' so that the effect runs when 'url' changes
+    fetchData();
+  }, [url]);
 
-  return { data, loading, error }; // Return an object containing the fetched 'data', loading state, and error state
+  return { data, loading, error };
 };
 
-export default useFetch; // Export the custom hook
+export default useFetch;
