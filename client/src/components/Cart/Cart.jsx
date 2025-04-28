@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux";
 import { makeRequest } from "../../makeRequest";
 import { loadStripe } from "@stripe/stripe-js";
 
+// Define the base URL for images depending on your backend deployment
+const baseUrl = 'https://deco-shop.onrender.com';
+
 const Cart = () => {
   // Get the products from the Redux store
   const products = useSelector((state) => state.cart.products);
@@ -22,8 +25,7 @@ const Cart = () => {
   };
 
   // Load Stripe with your publishable key
-  const stripePromise = loadStripe('pk_test_51Nh8aOFJOqhv3053x1RQF8aROyyt8AXUWxtY5VHvp0ZUKeYlu24GRux3TC8bALDJ3o68h10UshxFNIxoeUvXDqHq008yG8u5Lr')
-    
+  const stripePromise = loadStripe('pk_test_51Nh8aOFJOqhv3053x1RQF8aROyyt8AXUWxtY5VHvp0ZUKeYlu24GRux3TC8bALDJ3o68h10UshxFNIxoeUvXDqHq008yG8u5Lr');
 
   // Handle the payment process
   const handlePayment = async () => {
@@ -47,7 +49,8 @@ const Cart = () => {
       <h1>Products in your cart</h1>
       {products?.map((item) => (
         <div className="item" key={item.id}>
-          <img src={process.env.REACT_APP_UPLOAD_URL + item.img} alt="" />
+          {/* Load the product image with the correct base URL */}
+          <img src={baseUrl + item.img} alt="" />
           <div className="details">
             <h1>{item.title}</h1>
             <p>{item.desc?.substring(0, 100)}</p>
