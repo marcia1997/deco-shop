@@ -2,6 +2,9 @@ import React from "react";
 import "./Card.scss";
 import { Link } from "react-router-dom";
 
+// Define the base URL for images depending on your backend deployment
+const baseUrl = 'https://deco-shop.onrender.com';
+
 const Card = ({ item }) => {
   // Check if 'item' is null or undefined and return null if it is
   if (!item) {
@@ -20,8 +23,9 @@ const Card = ({ item }) => {
           {/* Load the main image and provide a default URL if missing */}
           <img
             src={
-              process.env.REACT_APP_UPLOAD_URL +
-              (attributes?.img?.data?.attributes?.url || "")
+              attributes?.img?.data?.attributes?.url
+                ? baseUrl + attributes.img.data.attributes.url
+                : ""
             }
             alt=""
             className="mainImg"
@@ -29,10 +33,7 @@ const Card = ({ item }) => {
           {/* Check if 'img2' exists before loading the second image */}
           {attributes?.img2?.data?.attributes?.url && (
             <img
-              src={
-                process.env.REACT_APP_UPLOAD_URL +
-                attributes?.img2?.data?.attributes?.url
-              }
+              src={baseUrl + attributes.img2.data.attributes.url}
               alt=""
               className="secondImg"
             />
