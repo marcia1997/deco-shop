@@ -9,6 +9,8 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
+// Define base URL for fetching images from backend
+const baseUrl = 'https://deco-shop.onrender.com';
 
 const Product = () => {
   // Extract product ID from URL parameters
@@ -37,8 +39,7 @@ const Product = () => {
               {/* Display first product image */}
               <img
                 src={
-                  process.env.REACT_APP_UPLOAD_URL +
-                  data?.attributes?.img?.data?.attributes?.url
+                  baseUrl + data?.attributes?.img?.data?.attributes?.url
                 }
                 alt=""
                 onClick={(e) => setSelectedImg("img")}
@@ -46,8 +47,7 @@ const Product = () => {
               {/* Display second product image */}
               <img
                 src={
-                  process.env.REACT_APP_UPLOAD_URL +
-                  data?.attributes?.img2?.data?.attributes?.url
+                  baseUrl + data?.attributes?.img2?.data?.attributes?.url
                 }
                 alt=""
                 onClick={(e) => setSelectedImg("img2")}
@@ -57,8 +57,7 @@ const Product = () => {
             <div className="mainImg">
               <img
                 src={
-                  process.env.REACT_APP_UPLOAD_URL +
-                  data?.attributes[selectedImg]?.data?.attributes?.url
+                  baseUrl + data?.attributes[selectedImg]?.data?.attributes?.url
                 }
                 alt=""
               />
@@ -94,7 +93,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img: data.attributes.img.data.attributes.url,
+                    img: baseUrl + data.attributes.img.data.attributes.url, // Fix image URL here
                     quantity,
                   })
                 )
