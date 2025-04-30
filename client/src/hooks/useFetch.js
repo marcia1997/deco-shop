@@ -12,7 +12,7 @@ const useFetch = (url) => {
         setLoading(true);
         const res = await makeRequest.get(url, {
           headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`, // Ensure this is passed
+            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`, 
           },
         });
         setData(res.data.data);
