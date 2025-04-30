@@ -39,7 +39,7 @@ const Product = () => {
               {/* Display first product image */}
               <img
                 src={
-                  baseUrl + data?.attributes?.img?.data?.attributes?.url
+                  baseUrl + (data?.attributes?.img?.data?.attributes?.url || "")
                 }
                 alt=""
                 onClick={(e) => setSelectedImg("img")}
@@ -47,7 +47,7 @@ const Product = () => {
               {/* Display second product image */}
               <img
                 src={
-                  baseUrl + data?.attributes?.img2?.data?.attributes?.url
+                  baseUrl + (data?.attributes?.img2?.data?.attributes?.url || "")
                 }
                 alt=""
                 onClick={(e) => setSelectedImg("img2")}
@@ -57,7 +57,8 @@ const Product = () => {
             <div className="mainImg">
               <img
                 src={
-                  baseUrl + data?.attributes[selectedImg]?.data?.attributes?.url
+                  baseUrl +
+                  (data?.attributes[selectedImg]?.data?.attributes?.url || "")
                 }
                 alt=""
               />
@@ -93,7 +94,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img: baseUrl + data.attributes.img.data.attributes.url, // Fix image URL here
+                    img: data.attributes.img?.data?.attributes?.url || "", // Save relative path
                     quantity,
                   })
                 )
