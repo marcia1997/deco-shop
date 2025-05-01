@@ -7,7 +7,7 @@ const List = ({ subCats, maxPrice, sort, catId }) => {
   // Use the useFetch hook to fetch data from the API based on the provided filters
   const { data, loading, error } = useFetch(
     // Construct the API endpoint URL with dynamic filters
-    `/products?populate=*&[filters][categories][id]=${catId}${subCats.map(
+    `/products?populate=img&[filters][categories][id]=${catId}${subCats.map(
       (item) => `&[filters][sub_categories][id][$eq]=${item}`
     )}&[filters][price][$lte]=${maxPrice}&sort=price:${sort}`
   );
