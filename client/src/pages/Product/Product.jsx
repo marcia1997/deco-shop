@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import "./Product.scss";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -24,7 +23,7 @@ const Product = () => {
   const dispatch = useDispatch();
 
   // Fetch product data using custom useFetch hook
-  const { data, loading, error } = useFetch(`/products/${id}?populate=*`);
+  const { data, loading } = useFetch(`/products/${id}?populate=*`);
 
   return (
     <div className="product">
@@ -39,27 +38,25 @@ const Product = () => {
               {/* Display first product image */}
               <img
                 src={
-                  process.env.REACT_APP_UPLOAD_URL + item.attributes.img?.data?.attributes?.url
+                  baseUrl + data?.attributes?.img?.data?.attributes?.url
                 }
                 alt=""
-                onClick={(e) => setSelectedImg("img")}
+                onClick={() => setSelectedImg("img")}
               />
               {/* Display second product image */}
               <img
                 src={
-                  process.env.REACT_APP_UPLOAD_URL + item.attributes.img?.data?.attributes?.url
-
+                  baseUrl + data?.attributes?.img2?.data?.attributes?.url
                 }
                 alt=""
-                onClick={(e) => setSelectedImg("img2")}
+                onClick={() => setSelectedImg("img2")}
               />
             </div>
             {/* Display main product image */}
             <div className="mainImg">
               <img
                 src={
-                  baseUrl +
-                  (data?.attributes[selectedImg]?.data?.attributes?.url || "")
+                  baseUrl + data?.attributes[selectedImg]?.data?.attributes?.url
                 }
                 alt=""
               />
@@ -95,7 +92,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img:  process.env.REACT_APP_UPLOAD_URL + (data.attributes.img?.data?.attributes?.url || ""), // Save 
+                    img: baseUrl + data.attributes.img.data.attributes.url, // Fix image URL here
                     quantity,
                   })
                 )
