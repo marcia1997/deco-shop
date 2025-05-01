@@ -25,6 +25,12 @@ const Product = () => {
   // Fetch product data using custom useFetch hook
   const { data, loading } = useFetch(`/products/${id}?populate=*`);
 
+  // Check if image data exists, otherwise use a fallback image
+  const getImageUrl = (imgKey) => {
+    const imgData = data?.attributes?.[imgKey]?.data?.attributes?.url;
+    return imgData ? baseUrl + imgData : "/path/to/fallback-image.jpg"; // Replace with actual fallback image path
+  };
+
   return (
     <div className="product">
       {/* Check if data is still loading */}
@@ -37,17 +43,13 @@ const Product = () => {
             <div className="images">
               {/* Display first product image */}
               <img
-                src={
-                  baseUrl + data?.attributes?.img?.data?.attributes?.url
-                }
+                src={getImageUrl("img")}
                 alt=""
                 onClick={() => setSelectedImg("img")}
               />
               {/* Display second product image */}
               <img
-                src={
-                  baseUrl + data?.attributes?.img2?.data?.attributes?.url
-                }
+                src={getImageUrl("img2")}
                 alt=""
                 onClick={() => setSelectedImg("img2")}
               />
@@ -55,9 +57,7 @@ const Product = () => {
             {/* Display main product image */}
             <div className="mainImg">
               <img
-                src={
-                  baseUrl + data?.attributes[selectedImg]?.data?.attributes?.url
-                }
+                src={getImageUrl(selectedImg)}
                 alt=""
               />
             </div>
@@ -92,7 +92,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img: baseUrl + data.attributes.img.data.attributes.url, // Fix image URL here
+                    img: getImageUrl("img"), // Use image URL function
                     quantity,
                   })
                 )
