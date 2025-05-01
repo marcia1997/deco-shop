@@ -39,7 +39,7 @@ const Product = () => {
               {/* Display first product image */}
               <img
                 src={
-                  baseUrl + (data?.attributes?.img?.data?.attributes?.url || "")
+                  process.env.REACT_APP_UPLOAD_URL + item.attributes.img?.data?.attributes?.url
                 }
                 alt=""
                 onClick={(e) => setSelectedImg("img")}
@@ -47,7 +47,8 @@ const Product = () => {
               {/* Display second product image */}
               <img
                 src={
-                  baseUrl + (data?.attributes?.img2?.data?.attributes?.url || "")
+                  process.env.REACT_APP_UPLOAD_URL + item.attributes.img?.data?.attributes?.url
+
                 }
                 alt=""
                 onClick={(e) => setSelectedImg("img2")}
@@ -94,7 +95,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img: data.attributes.img?.data?.attributes?.url || "", // Save relative path
+                    img:  process.env.REACT_APP_UPLOAD_URL + (data.attributes.img?.data?.attributes?.url || ""), // Save 
                     quantity,
                   })
                 )
