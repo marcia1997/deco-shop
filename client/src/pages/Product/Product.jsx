@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useState } from "react";
 import "./Product.scss";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -8,69 +9,82 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
-const baseUrl = "https://deco-shop.onrender.com";
+// Define base URL for fetching images from backend
+const baseUrl = 'https://deco-shop.onrender.com';
 
 const Product = () => {
+  // Extract product ID from URL parameters
   const id = useParams().id;
+
+  // State for tracking selected image and quantity
+  const [selectedImg, setSelectedImg] = useState("img");
   const [quantity, setQuantity] = useState(1);
+
+  // Redux dispatch function for adding to cart
   const dispatch = useDispatch();
 
+  // Fetch product data using custom useFetch hook
   const { data, loading, error } = useFetch(`/products/${id}?populate=*`);
-
-  // Define initial selected image based on img if exists
-  const [selectedImg, setSelectedImg] = useState(null);
-
-  React.useEffect(() => {
-    if (data?.attributes?.img?.data?.attributes?.url) {
-      setSelectedImg(baseUrl + data.attributes.img.data.attributes.url);
-    }
-  }, [data]);
 
   return (
     <div className="product">
+      {/* Check if data is still loading */}
       {loading ? (
         "loading"
       ) : (
         <>
+          {/* Left section with product images */}
           <div className="left">
             <div className="images">
-              {/* Thumbnail 1 */}
-              {data?.attributes?.img?.data?.attributes?.url && (
-                <img
-                  src={baseUrl + data.attributes.img.data.attributes.url}
-                  alt=""
-                  onClick={() =>
-                    setSelectedImg(baseUrl + data.attributes.img.data.attributes.url)
-                  }
-                />
-              )}
-              {/* Thumbnail 2 */}
-              {data?.attributes?.img2?.data?.attributes?.url && (
-                <img
-                  src={baseUrl + data.attributes.img2.data.attributes.url}
-                  alt=""
-                  onClick={() =>
-                    setSelectedImg(baseUrl + data.attributes.img2.data.attributes.url)
-                  }
-                />
-              )}
+              {/* Display first product image */}
+              <img
+                src={
+                  baseUrl + (data?.attributes?.img?.data?.attributes?.url || "")
+                }
+                alt=""
+                onClick={(e) => setSelectedImg("img")}
+              />
+              {/* Display second product image */}
+              <img
+                src={
+                  baseUrl + (data?.attributes?.img2?.data?.attributes?.url || "")
+                }
+                alt=""
+                onClick={(e) => setSelectedImg("img2")}
+              />
             </div>
+            {/* Display main product image */}
             <div className="mainImg">
-              {selectedImg && <img src={selectedImg} alt="Main product" />}
+              <img
+                src={
+                  baseUrl +
+                  (data?.attributes[selectedImg]?.data?.attributes?.url || "")
+                }
+                alt=""
+              />
             </div>
           </div>
-
+          {/* Right section with product details */}
           <div className="right">
+            {/* Display product title */}
             <h1>{data?.attributes?.title}</h1>
+            {/* Display product price */}
             <span className="price">${data?.attributes?.price}</span>
+            {/* Display product description */}
             <p>{data?.attributes?.desc}</p>
-
+            {/* Quantity selection */}
             <div className="quantity">
-              <button onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}>-</button>
+              <button
+                onClick={() =>
+                  setQuantity((prev) => (prev === 1 ? 1 : prev - 1))
+                }
+              >
+                -
+              </button>
               {quantity}
               <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
             </div>
-
+            {/* Add to cart button */}
             <button
               className="add"
               onClick={() =>
@@ -80,7 +94,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img: data.attributes.img?.data?.attributes?.url || "",
+                    img: data.attributes.img?.data?.attributes?.url || "", // Save relative path
                     quantity,
                   })
                 )
@@ -88,7 +102,7 @@ const Product = () => {
             >
               <AddShoppingCartIcon /> ADD TO CART
             </button>
-
+            {/* Links for additional actions */}
             <div className="links">
               <div className="item">
                 <FavoriteBorderIcon /> ADD TO WISH LIST
@@ -97,9 +111,12 @@ const Product = () => {
                 <BalanceIcon /> ADD TO COMPARE
               </div>
             </div>
-
-            <div className="info"></div>
+            {/* Additional product information */}
+            <div className="info">
+              {/* Display product vendor, type, tags, etc. */}
+            </div>
             <hr />
+            {/* Tabs for different sections */}
             <div className="info">
               <span>DESCRIPTION</span>
               <hr />
