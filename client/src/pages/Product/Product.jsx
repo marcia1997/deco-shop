@@ -8,81 +8,68 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
-// Define base URL for fetching images from backend
-const baseUrl = 'https://deco-shop.onrender.com';
+// Base URL for Strapi media files (hosted on Render)
+const baseUrl = "https://deco-shop.onrender.com";
 
 const Product = () => {
-  // Extract product ID from URL parameters
+  // Get the product ID from the URL
   const id = useParams().id;
 
-  // State for tracking selected image and quantity
+  // State for selected image and quantity
   const [selectedImg, setSelectedImg] = useState("img");
   const [quantity, setQuantity] = useState(1);
 
-  // Redux dispatch function for adding to cart
+  // Redux dispatch function
   const dispatch = useDispatch();
 
-  // Fetch product data using custom useFetch hook
+  // Fetch product data from Strapi (including all fields)
   const { data, loading } = useFetch(`/products/${id}?populate=*`);
 
-  // Check if image data exists, otherwise use a fallback image
+  // Helper to get full image URL or fallback
   const getImageUrl = (imgKey) => {
     const imgData = data?.attributes?.[imgKey]?.data?.attributes?.url;
-    return imgData ? baseUrl + imgData : "/path/to/fallback-image.jpg"; // Replace with actual fallback image path
+    return imgData ? `${baseUrl}${imgData}` : "/fallback.jpg"; // Replace with a real fallback if needed
   };
 
   return (
     <div className="product">
-      {/* Check if data is still loading */}
       {loading ? (
         "loading"
       ) : (
         <>
-          {/* Left section with product images */}
+          {/* LEFT SIDE: Product Images */}
           <div className="left">
             <div className="images">
-              {/* Display first product image */}
               <img
                 src={getImageUrl("img")}
                 alt=""
                 onClick={() => setSelectedImg("img")}
               />
-              {/* Display second product image */}
               <img
                 src={getImageUrl("img2")}
                 alt=""
                 onClick={() => setSelectedImg("img2")}
               />
             </div>
-            {/* Display main product image */}
             <div className="mainImg">
-              <img
-                src={getImageUrl(selectedImg)}
-                alt=""
-              />
+              <img src={getImageUrl(selectedImg)} alt="" />
             </div>
           </div>
-          {/* Right section with product details */}
+
+          {/* RIGHT SIDE: Product Info */}
           <div className="right">
-            {/* Display product title */}
             <h1>{data?.attributes?.title}</h1>
-            {/* Display product price */}
             <span className="price">${data?.attributes?.price}</span>
-            {/* Display product description */}
             <p>{data?.attributes?.desc}</p>
-            {/* Quantity selection */}
+
+            {/* Quantity Selector */}
             <div className="quantity">
-              <button
-                onClick={() =>
-                  setQuantity((prev) => (prev === 1 ? 1 : prev - 1))
-                }
-              >
-                -
-              </button>
+              <button onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}>-</button>
               {quantity}
               <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
             </div>
-            {/* Add to cart button */}
+
+            {/* Add to Cart Button */}
             <button
               className="add"
               onClick={() =>
@@ -92,7 +79,7 @@ const Product = () => {
                     title: data.attributes.title,
                     desc: data.attributes.desc,
                     price: data.attributes.price,
-                    img: getImageUrl("img"), // Use image URL function
+                    img: getImageUrl("img"),
                     quantity,
                   })
                 )
@@ -100,7 +87,8 @@ const Product = () => {
             >
               <AddShoppingCartIcon /> ADD TO CART
             </button>
-            {/* Links for additional actions */}
+
+            {/* Additional Options */}
             <div className="links">
               <div className="item">
                 <FavoriteBorderIcon /> ADD TO WISH LIST
@@ -109,12 +97,15 @@ const Product = () => {
                 <BalanceIcon /> ADD TO COMPARE
               </div>
             </div>
-            {/* Additional product information */}
+
+            {/* Extra Info (optional) */}
             <div className="info">
-              {/* Display product vendor, type, tags, etc. */}
+              {/* You can display brand, SKU, tags, etc. here */}
             </div>
+
             <hr />
-            {/* Tabs for different sections */}
+
+            {/* Tabs/Sections */}
             <div className="info">
               <span>DESCRIPTION</span>
               <hr />
