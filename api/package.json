@@ -18,6 +18,7 @@
     "cors": "^2.8.5",
     "node": "^20.5.0",
     "pg": "^8.14.1",
+    "strapi-provider-upload-cloudinary": "^3.1.4",
     "stripe": "^13.2.0"
   },
   "author": "A Strapi developer",
