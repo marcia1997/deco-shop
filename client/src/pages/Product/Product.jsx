@@ -8,68 +8,64 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
-// Base URL for Strapi media files (hosted on Render)
-const baseUrl = "https://deco-shop.onrender.com";
+
+const fallbackImg = "/fallback.jpg";
 
 const Product = () => {
-  // Get the product ID from the URL
   const id = useParams().id;
-
-  // State for selected image and quantity
   const [selectedImg, setSelectedImg] = useState("img");
   const [quantity, setQuantity] = useState(1);
-
-  // Redux dispatch function
   const dispatch = useDispatch();
 
-  // Fetch product data from Strapi (including all fields)
   const { data, loading } = useFetch(`/products/${id}?populate=*`);
 
-  // Helper to get full image URL or fallback
   const getImageUrl = (imgKey) => {
-    const imgData = data?.attributes?.[imgKey]?.data?.attributes?.url;
-    return imgData ? `${baseUrl}${imgData}` : "/fallback.jpg"; // Replace with a real fallback if needed
+    const imageObj = data?.attributes?.[imgKey]?.data;
+    if (!imageObj) return fallbackImg;
+
+    const url = imageObj.attributes?.url;
+    return url.startsWith("http") ? url : `https://deco-shop.onrender.com${url}`;
   };
 
   return (
     <div className="product">
       {loading ? (
-        "loading"
+        "Loading..."
       ) : (
         <>
-          {/* LEFT SIDE: Product Images */}
           <div className="left">
             <div className="images">
-              <img
-                src={getImageUrl("img")}
-                alt=""
-                onClick={() => setSelectedImg("img")}
-              />
-              <img
-                src={getImageUrl("img2")}
-                alt=""
-                onClick={() => setSelectedImg("img2")}
-              />
+              {data?.attributes?.img?.data && (
+                <img
+                  src={getImageUrl("img")}
+                  alt=""
+                  onClick={() => setSelectedImg("img")}
+                />
+              )}
+              {data?.attributes?.img2?.data && (
+                <img
+                  src={getImageUrl("img2")}
+                  alt=""
+                  onClick={() => setSelectedImg("img2")}
+                />
+              )}
             </div>
             <div className="mainImg">
               <img src={getImageUrl(selectedImg)} alt="" />
             </div>
           </div>
 
-          {/* RIGHT SIDE: Product Info */}
           <div className="right">
             <h1>{data?.attributes?.title}</h1>
             <span className="price">${data?.attributes?.price}</span>
             <p>{data?.attributes?.desc}</p>
 
-            {/* Quantity Selector */}
             <div className="quantity">
               <button onClick={() => setQuantity((prev) => Math.max(prev - 1, 1))}>-</button>
               {quantity}
               <button onClick={() => setQuantity((prev) => prev + 1)}>+</button>
             </div>
 
-            {/* Add to Cart Button */}
             <button
               className="add"
               onClick={() =>
@@ -88,7 +84,6 @@ const Product = () => {
               <AddShoppingCartIcon /> ADD TO CART
             </button>
 
-            {/* Additional Options */}
             <div className="links">
               <div className="item">
                 <FavoriteBorderIcon /> ADD TO WISH LIST
@@ -98,14 +93,8 @@ const Product = () => {
               </div>
             </div>
 
-            {/* Extra Info (optional) */}
-            <div className="info">
-              {/* You can display brand, SKU, tags, etc. here */}
-            </div>
-
             <hr />
 
-            {/* Tabs/Sections */}
             <div className="info">
               <span>DESCRIPTION</span>
               <hr />
