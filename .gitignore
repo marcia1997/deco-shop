@@ -13,3 +13,6 @@ client/node_modules/.cache/default-development/0.pack
 api/config/middlewares.js
 api/src/api/product/content-types/product/schema.json
 api/src/api/product/content-types/product/schema.json
+/client/node_modules/.cache
+/client/node_modules
+client/node_modules/.cache/.eslintcache
