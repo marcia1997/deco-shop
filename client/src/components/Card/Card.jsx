@@ -22,19 +22,15 @@ const Card = ({ item }) => {
           {attributes?.isNew && <span>New Season</span>}
           {/* Load the main image and provide a default URL if missing */}
           <img
-            src={
-              attributes?.img?.data?.attributes?.url
-                ? baseUrl + attributes.img.data.attributes.url
-                : ""
-            }
-            alt=""
+            src={attributes?.img || ""}
+            alt="Main"
             className="mainImg"
           />
-          {/* Check if 'img2' exists before loading the second image */}
-          {attributes?.img2?.data?.attributes?.url && (
+
+          {attributes?.img2 && (
             <img
-              src={baseUrl + attributes.img2.data.attributes.url}
-              alt=""
+              src={attributes.img2}
+              alt="Second"
               className="secondImg"
             />
           )}
