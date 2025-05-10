@@ -8,47 +8,42 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
-
-const fallbackImg = "/fallback.jpg";
+// Base URL for Strapi media files (hosted on Render)
+const baseUrl = "https://deco-shop.onrender.com";
 
 const Product = () => {
-  const id = useParams().id;
+  const { id } = useParams();
   const [selectedImg, setSelectedImg] = useState("img");
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
+  
   const { data, loading } = useFetch(`/products/${id}?populate=*`);
 
+  
   const getImageUrl = (imgKey) => {
-    const imageObj = data?.attributes?.[imgKey]?.data;
-    if (!imageObj) return fallbackImg;
-
-    const url = imageObj.attributes?.url;
-    return url.startsWith("http") ? url : `https://deco-shop.onrender.com${url}`;
+    const imgData = data?.attributes?.[imgKey]?.data?.attributes?.url;
+    return imgData ? `${baseUrl}${imgData}` : "/fallback.jpg";
   };
 
   return (
     <div className="product">
       {loading ? (
-        "Loading..."
+        "loading"
       ) : (
         <>
           <div className="left">
             <div className="images">
-              {data?.attributes?.img?.data && (
-                <img
-                  src={getImageUrl("img")}
-                  alt=""
-                  onClick={() => setSelectedImg("img")}
-                />
-              )}
-              {data?.attributes?.img2?.data && (
-                <img
-                  src={getImageUrl("img2")}
-                  alt=""
-                  onClick={() => setSelectedImg("img2")}
-                />
-              )}
+              <img
+                src={getImageUrl("img")}
+                alt=""
+                onClick={() => setSelectedImg("img")}
+              />
+              <img
+                src={getImageUrl("img2")}
+                alt=""
+                onClick={() => setSelectedImg("img2")}
+              />
             </div>
             <div className="mainImg">
               <img src={getImageUrl(selectedImg)} alt="" />
