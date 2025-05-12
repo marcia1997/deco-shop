@@ -1,35 +1,40 @@
 import { useEffect, useState } from "react";
-import { makeRequest } from "../makeRequest"; // Axios instance
+import { makeRequest } from "../makeRequest"; // Custom Axios instance or API utility
 
 const useFetch = (url) => {
+  // State to store API data, loading status, and error flag
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
+    // Define async function for fetching data
     const fetchData = async () => {
       try {
-        setLoading(true);
+        setLoading(true); // Set loading to true before request
 
-        const token = process.env.REACT_APP_API_TOKEN;
+        // Send GET request to the provided URL with authorization
+        const res = await makeRequest.get(url, {
+          headers: {
+            Authorization: `Bearer ${process.env.REACT_APP_API_TOKEN}`, // Get token from environment variable
+          },
+        });
 
-        const headers = token
-          ? { Authorization: `Bearer ${token}` }
-          : {};
-
-        const res = await makeRequest.get(url, { headers });
-
+        // Save the response data
         setData(res.data.data);
       } catch (err) {
-        console.error("Fetch error:", err.response?.data || err.message); 
+        // Set error state if request fails
+        setError(true);
       }
 
+      // Set loading to false after request completes (success or failure)
       setLoading(false);
     };
 
-    fetchData();
-  }, [url]);
+    fetchData(); // Trigger data fetch on component mount or when URL changes
+  }, [url]); // Dependency array ensures hook re-runs if URL changes
 
+  // Return the current state values to the component
   return { data, loading, error };
 };
 
