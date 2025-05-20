@@ -5,8 +5,8 @@ import useFetch from "../../hooks/useFetch";
 
 const FeaturedProducts = ({ type }) => {
   const { data, loading, error } = useFetch(
-    `/products?populate=*&[filters][type][$eq]=${type}&[filters][img][$exists]=true`
-  );
+  `/products?populate=*&filters[type][$eq]=${type}&filters[img][$notNull]=true`
+);
 
   return (
     <div className="featuredProducts">
