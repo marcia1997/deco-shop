@@ -1,8 +1,10 @@
 module.exports = [
   'strapi::errors',
   'strapi::security',
+  
   {
     name: 'strapi::cors',
+    
     config: {
       origin: [
         'http://localhost:3000',
@@ -11,7 +13,11 @@ module.exports = [
       ],
       credentials: true,
     },
+    
   },
+   'strapi::errors',
+  'strapi::security',
+  'strapi::cors',
   'strapi::poweredBy',
   'strapi::logger',
   'strapi::query',
@@ -19,4 +25,5 @@ module.exports = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
+
 ];
