@@ -1,10 +1,8 @@
 module.exports = [
   'strapi::errors',
   'strapi::security',
-  
   {
-    name: 'strapi::cors',
-    
+    name: 'strapi::security',
     config: {
       origin: [
         'http://localhost:3000',
@@ -12,11 +10,17 @@ module.exports = [
         'https://deco-shop.onrender.com',
       ],
       credentials: true,
+      contentSecurityPolicy: {
+        useDefaults: true,
+        directives: {
+          'connect-src': ["'self'", 'https:'],
+          'img-src': ["'self'", 'data:', 'blob:', 'market-assets.strapi.io', 'res.cloudinary.com'],
+          'media-src': ["'self'", 'data:', 'blob:', 'market-assets.strapi.io', 'res.cloudinary.com'],
+          upgradeInsecureRequests: null,
+        },
+      },
     },
-    
   },
-   'strapi::errors',
-  'strapi::security',
   'strapi::cors',
   'strapi::poweredBy',
   'strapi::logger',
@@ -25,5 +29,4 @@ module.exports = [
   'strapi::session',
   'strapi::favicon',
   'strapi::public',
-
 ];
