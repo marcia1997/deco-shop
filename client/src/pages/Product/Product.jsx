@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/cartReducer";
 
-// Base URL for Strapi media files (hosted on Render)
+// Base URL for local Strapi media (used only for relative paths)
 const baseUrl = "https://deco-shop.onrender.com";
 
 const Product = () => {
@@ -17,36 +17,41 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
 
-  
   const { data, loading } = useFetch(`/products/${id}?populate=*`);
 
-  
   const getImageUrl = (imgKey) => {
-    const imgData = data?.attributes?.[imgKey]?.data?.attributes?.url;
-    return imgData ? `${baseUrl}${imgData}` : "/fallback.jpg";
+    const url = data?.attributes?.[imgKey]?.data?.attributes?.url;
+
+    if (!url) return "/fallback.jpg";
+
+    // Use full Cloudinary URL directly
+    if (url.startsWith("http")) return url;
+
+    // Otherwise assume it's a local path
+    return `${baseUrl}${url}`;
   };
 
   return (
     <div className="product">
       {loading ? (
-        "loading"
+        "Loading..."
       ) : (
         <>
           <div className="left">
             <div className="images">
               <img
                 src={getImageUrl("img")}
-                alt=""
+                alt="Main"
                 onClick={() => setSelectedImg("img")}
               />
               <img
                 src={getImageUrl("img2")}
-                alt=""
+                alt="Second"
                 onClick={() => setSelectedImg("img2")}
               />
             </div>
             <div className="mainImg">
-              <img src={getImageUrl(selectedImg)} alt="" />
+              <img src={getImageUrl(selectedImg)} alt="Selected" />
             </div>
           </div>
 
